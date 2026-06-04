@@ -8,6 +8,7 @@ from ..config.enums import Website
 from ..config.manager import manager
 from ..number import get_number_letters
 from .base import BaseCrawler, Context, CralwerException, CrawlerData
+from .official_uncensored import crawl_uncensored_official
 from .prestige import PrestigeCrawler
 
 DIRECTOR_PLACEHOLDER_CHARS = frozenset("-—－ー―‐~～·•. ")
@@ -120,6 +121,12 @@ class OfficialCrawler(BaseCrawler):
     @override
     async def _run(self, ctx: Context):
         number = ctx.input.number
+        uncensored_data = await crawl_uncensored_official(ctx, self.async_client, number)
+        if uncensored_data is not None:
+            result = uncensored_data.to_result()
+            ctx.debug("official uncensored data success")
+            return result
+
         official_url = manager.computed.official_websites.get(get_number_letters(number))
         if not official_url:
             raise CralwerException("不在官网番号前缀列表中")

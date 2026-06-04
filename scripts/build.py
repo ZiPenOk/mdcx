@@ -80,6 +80,10 @@ class BuildManager:
                 logger.info("清理现有的 dist 目录...")
                 shutil.rmtree(dist)
 
+            # 删除旧 spec 文件，确保重新生成
+            spec_file = Path(f"{self.app_name}.spec")
+            if spec_file.exists():
+                spec_file.unlink()
             self._generate_spec()
             if self.is_mac:
                 self._modify_spec()
@@ -138,7 +142,8 @@ class BuildManager:
             self.app_name,
             "--noupx",
             *(["--osx-bundle-identifier", "com.mdcuniverse.mdcx"] * self.is_mac),
-            *(["--onefile"] if not self.is_mac else []),
+            # 使用 onedir（目录模式）代替 onefile，避免每次启动解压 ~150MB 到临时目录
+            *(["--onedir"] if not self.is_mac else []),
             "-w",
             "main.py",
             "-p",
@@ -205,7 +210,8 @@ class BuildManager:
 
         # 验证构建结果
         if self.is_windows:
-            app_path = Path(f"dist/{self.app_name}.exe")
+            # onedir 模式下 exe 在子目录中
+            app_path = Path(f"dist/{self.app_name}/{self.app_name}.exe")
         elif self.is_mac:
             app_path = Path(f"dist/{self.app_name}.app")
         else:

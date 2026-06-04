@@ -154,7 +154,7 @@ def test_config_default_site_priorities_follow_current_frontend_defaults():
         Website.DMM,
         Website.AVBASE,
     ]
-    assert config.website_wuma == [Website.MISSAV, Website.MMTV, Website.AVSOX]
+    assert config.website_wuma == [Website.OFFICIAL, Website.MISSAV, Website.MMTV, Website.AVSOX]
     assert config.website_suren == [
         Website.MGSTAGE,
         Website.JAVBUS,

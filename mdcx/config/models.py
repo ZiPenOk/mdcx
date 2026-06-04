@@ -358,6 +358,7 @@ class Config(BaseModel):
     )
     website_wuma: list[Website] = Field(
         default_factory=lambda: [
+            Website.OFFICIAL,
             Website.MISSAV,
             Website.MMTV,
             Website.AVSOX,
