@@ -31,7 +31,7 @@ jobs:
         run: |
           items=()
           items+=('{"build": "macos", "os": "macos-latest", "arch": "aarch64"}')
-          items+=('{"build": "windows", "os": "windows-latest", "arch": "x86_64"}')
+          items+=('{"build": "windows", "os": "windows-2022", "arch": "x86_64"}')
 
           matrix="matrix=["
           for ((i=0; i<${#items[@]}; i++)); do
@@ -53,18 +53,18 @@ jobs:
         include: ${{ fromJson(needs.init-matrix.outputs.matrix) }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           fetch-tags: true
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
       - name: Set up uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v8.2.0
         with:
           activate-environment: true
 

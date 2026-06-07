@@ -21,7 +21,7 @@ jobs:
             matrix: ${{ steps.set-matrix.outputs.matrix }}
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v5
               with:
                   fetch-depth: 0
 
@@ -36,7 +36,7 @@ jobs:
                   items+=('{"build": "macos", "os": "macos-latest", "arch": "aarch64"}')
                   items+=('{"build": "macos", "os": "macos-13", "arch": "x86_64"}')
 
-                  items+=('{"build": "windows", "os": "windows-latest", "arch": "x86_64"}')
+                  items+=('{"build": "windows", "os": "windows-2022", "arch": "x86_64"}')
 
                   # macOS 10.15.7, x86_64, 指定opencv版本
                   if [[ -n "${{ vars.BUILD_FOR_MACOS_LEGACY }}" && -n "${{ vars.MACOS_LEGACY_CV_VERSION }}" ]]; then
@@ -70,7 +70,7 @@ jobs:
                 include: ${{fromJson(needs.init-matrix.outputs.matrix)}}
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v5
 
             - name: Before setup-python
               if: ${{ matrix.build == 'macos' }}
@@ -83,14 +83,14 @@ jobs:
 
             - name: Set up Python - cache pip
               if: ${{ matrix.cache != 'none' }}
-              uses: actions/setup-python@v5
+              uses: actions/setup-python@v6
               with:
                   python-version: ${{ matrix.python || env.PYTHON_VERSION }}
                   cache: ${{ matrix.cache || 'pip' }}
 
             - name: Set up Python - no cache
               if: ${{ matrix.cache == 'none' }}
-              uses: actions/setup-python@v5
+              uses: actions/setup-python@v6
               with:
                   python-version: ${{ matrix.python || env.PYTHON_VERSION }}
 
