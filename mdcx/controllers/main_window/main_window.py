@@ -52,7 +52,7 @@ from mdcx.core.naming import NameRenderOptions, NamingTarget, render_name
 from mdcx.core.network_check import run_network_check
 from mdcx.core.nfo import write_nfo
 from mdcx.core.scraper import again_search, get_remain_list, start_new_scrape
-from mdcx.crawlers.fc2ppvdb import cookie_str_to_dict, fetch_article_info_with_warmup
+from mdcx.crawlers.fc2ppvdb import FC2CMADB_BASE_URL, cookie_str_to_dict, fetch_article_info_with_warmup
 from mdcx.image import PreviewImageLoader
 from mdcx.models.enums import FileMode
 from mdcx.models.flags import Flags
@@ -3140,16 +3140,16 @@ class MyMAinWindow(QMainWindow):
             self.set_fc2ppvdb_status.emit(tips)
             return tips
 
-        if "fc2ppvdb_session" not in input_cookie:
-            tips = "❌ Cookie 无效！缺少 fc2ppvdb_session"
+        cookies = cookie_str_to_dict(input_cookie)
+        if not cookies:
+            tips = "❌ Cookie 无效！无法解析 Cookie 内容"
         else:
-            cookies = cookie_str_to_dict(input_cookie)
             with manager.acquire_computed() as computed:
                 response, error = executor.run(
                     fetch_article_info_with_warmup(
                         computed.async_client,
-                        base_url="https://fc2ppvdb.com",
-                        number="3259498",
+                        base_url=FC2CMADB_BASE_URL,
+                        number="4930958",
                         cookies=cookies,
                         use_proxy=manager.config.use_proxy,
                     )

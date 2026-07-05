@@ -11,7 +11,6 @@ from PyQt6.QtWidgets import QApplication
 from mdcx.consts import IS_DOCKER, IS_MAC, IS_NFC, IS_PYINSTALLER, IS_WINDOWS, MAIN_PATH
 from mdcx.controllers.main_window.main_window import MyMAinWindow
 from mdcx.controllers.main_window.style import apply_application_palette
-from mdcx.utils.video import VIDEO_BACKEND
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -25,7 +24,6 @@ def show_constants():
         "IS_DOCKER": IS_DOCKER,
         "IS_NFC": IS_NFC,
         "IS_PYINSTALLER": IS_PYINSTALLER,
-        "VIDEO_BACKEND": VIDEO_BACKEND,
     }
     print("Run time constants:")
     for key, value in constants.items():
